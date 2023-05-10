@@ -54,9 +54,15 @@
         "setting" : {
             "urlCheck" : true,
             "es6" : true,
-            "minified" : true
+            "minified" : true,
+            "postcss" : true
         },
-        "usingComponents" : true
+        "usingComponents" : true,
+        "permission" : {
+            "scope.userLocation" : {
+                "desc" : "允许微信小程序获取您当前的位置吗？"
+            }
+        }
     },
     "vueVersion" : "2"
 }

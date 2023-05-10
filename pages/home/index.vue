@@ -25,7 +25,7 @@
 		<!-- 按钮区 -->
 		<view class="buttons">
 			<button class="btn" @click="gotoInfo">每日打卡</button>
-			<button class="btn">周边健康</button>
+			<button class="btn" @click="gotoMap">周边健康</button>
 		</view>
 		<!-- 最新通告 -->
 
@@ -85,6 +85,11 @@
 			gotoInfo(){
 				uni.navigateTo({
 					url:"/subpkg/infoCollection/infoCollection"
+				})
+			},
+			gotoMap(){
+				uni.navigateTo({
+					url:"/subpkg/healthMap/healthMap"
 				})
 			}
 		}

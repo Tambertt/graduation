@@ -14,19 +14,20 @@
 				</uni-forms-item>
 
 				<uni-forms-item label="定位" required>
-					<uni-easyinput class="input" v-model="baseFormData.address" type="text" disabled="true"/>
-					<button class="btn" type="primary" @click="getAddress">定位
-						<uni-icons class="icons" type="location" size="30" color="white"></uni-icons>
+					<uni-easyinput class="input" v-model="baseFormData.address" type="text" />
+					<button class="btn" type="primary" @click="getRegeo">定位
+						<uni-icons class="icons" type="location" size="25" color="white"></uni-icons>
 					</button>
 				</uni-forms-item>
 			</uni-forms>
-			
-		  <button type="primary" @click="submit('valiForm')">提交</button> 
+
+			<button type="primary" @click="submit('valiForm')">提交</button>
 		</uni-section>
 	</view>
 </template>
 
 <script>
+	import amap from '@/common/amap-wx.130.js';
 	export default {
 		data() {
 			return {
@@ -61,9 +62,16 @@
 						]
 					},
 					address: ''
-				}
-
+				},
+				amapPlugin: null,
+				key: 'bfab788f4c0103cb9324caaa9b40b9ae'
 			}
+		},
+		onLoad() {
+			this.amapPlugin = new amap.AMapWX({
+				key: this.key
+			});
+			console.log(this.amapPlugin);
 		},
 		methods: {
 			changeTemp(e) {
@@ -72,20 +80,25 @@
 			changeSymp(e) {
 				console.log(e.detail.value);
 			},
-			getAddress(){
-				uni.getLocation({
-					type: 'wgs84',
-					success: function (res) {
-						console.log('111');
-						console.log('当前位置的经度：' + res.longitude);
-						console.log('当前位置的纬度：' + res.latitude);
-						console.log(res.address);
+			getRegeo() {
+				uni.showLoading({
+					title: '获取信息中'
+				});
+				this.amapPlugin.getRegeo({
+					success: (data) => {
+						console.log(this)
+						this.baseFormData.address = data[0].name;
+						
+						uni.hideLoading();
+					},
+					fail:(err) =>{
+						console.log(err);
 					}
 				});
 			}
-		    
+
 		},
-		
+
 	}
 </script>
 
@@ -102,10 +115,11 @@
 			right: 3rpx;
 			font-size: 32rpx;
 			z-index: 999;
-			.icons{
+			.icons {
 				position: absolute;
 				top: 0;
 				right: 16rpx;
+				margin-left: 10rpx;
 			}
 		}
 	}

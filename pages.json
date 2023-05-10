@@ -8,6 +8,12 @@
 			"path": "pages/my/index"
 			
 		}],
+		"permission": {
+		    "scope.userLocation": {
+		      "desc": "你的位置信息将用于小程序位置接口的效果展示" // 高速公路行驶持续后台定位
+		    }
+		  },
+		  "requiredPrivateInfos":["getLocation"],
 	"subPackages": [
 		{
 			"root": "subpkg",
@@ -21,6 +27,13 @@
 				},
 				{
 					"path": "personal/personal",
+					"style": {
+						"enablePullDownRefresh": false,
+						"navigationBarTitleText": ""
+					}
+				},
+				{
+					"path": "healthMap/healthMap",
 					"style": {
 						"enablePullDownRefresh": false,
 						"navigationBarTitleText": ""

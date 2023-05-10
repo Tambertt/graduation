@@ -25,10 +25,13 @@
 					desc: '一键登录',
 					lang: "zh_CN",
 					success: (res) => {
-						uni.setStorage({
-							key:"user-info",
-							data:res.userInfo
-						})
+						uni.setStorageSync(
+							"user-info",
+							JSON.stringify(res.userInfo)
+						)
+						uni.reLaunch({
+							url: '../../pages/my/index'
+						});
 					},
 					fail: (err) => {
 						console.log(err);

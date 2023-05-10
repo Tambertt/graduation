@@ -22,20 +22,47 @@
 
 <script>
 	export default {
-		data(){
-			return{
-				userInfo:{}
+		data() {
+			return {
+				userInfo: {}
 			}
 		},
-         onLoad() {
-         	uni.getStorage({
-         		key:"user-info",
-				success(res) {
-					//console.log(res);
-					//this.userInfo=res.data
+		created() {
+			try {
+				const value = uni.getStorageSync("user-info")
+				if (value) {
+					this.userInfo = JSON.parse(value)
 				}
-         	})
-         }
+			} catch (e) {
+				console.log(e);
+				//TODO handle the exception
+				uni.showToast({
+					title: e.message,
+					duration: 2000
+				});
+
+			}
+		},
+		methods:{
+			logout(){
+				uni.showModal({
+					cancelText:"取消",
+					confirmText:"确定",
+					title:"确定要退出吗？",
+					success() {
+						uni.removeStorageSync("user-info")
+						uni.reLaunch({
+							url: '../../pages/my/index'
+						});
+					},
+					fail() {
+						
+					}
+				})
+				
+			}
+		}
+
 	}
 </script>
 

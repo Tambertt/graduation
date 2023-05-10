@@ -1,7 +1,7 @@
 <template>
 	<view class="my">
-		<!-- <LogIn v-if="!userInfo.nickName"></LogIn> -->
-		<!-- <UserInfo></UserInfo> -->
+		<LogIn v-if="!userInfo.avatarUrl"></LogIn>
+		<UserInfo v-else></UserInfo>
 	</view>
 
 </template>
@@ -10,25 +10,33 @@
 	import UserInfo from "@/component/userInfo/index.vue";
 	import LogIn from "@/component/login/index.vue";
 	export default {
-		data(){
-			return{
-			  userInfo:{}	
+		data() {
+			return {
+				userInfo: {}
 			}
 		},
 		components: {
 			UserInfo,
 			LogIn
 		},
-		
-		onLoad(options) {
-			uni.getStorage({
-				key: "user-info",
-				success(res) {
-					console.log(this);
-					//this.userInfo = res.data
+     
+		onLoad() {
+			try {
+				const value = uni.getStorageSync("user-info")
+				if (value) {
+					this.userInfo = JSON.parse(value)
+					this.onLoad()
 				}
-			})
+			} catch (e) {
+				//TODO handle the exception
+				uni.showToast({
+					title: e.message,
+					duration: 2000
+				});
+
+			}
 		}
+		
 	}
 </script>
 
