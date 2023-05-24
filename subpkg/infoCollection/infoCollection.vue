@@ -61,7 +61,9 @@
 							}
 						]
 					},
-					address: ''
+					address: '',
+					latitude:'',
+					longitude:''
 				},
 				amapPlugin: null,
 				key: 'bfab788f4c0103cb9324caaa9b40b9ae'
@@ -86,8 +88,10 @@
 				});
 				this.amapPlugin.getRegeo({
 					success: (data) => {
-						console.log(this)
+						console.log(data)
 						this.baseFormData.address = data[0].name;
+						this.baseFormData.latitude = data[0].latitude;
+						this.baseFormData.longitude = data[0].longitude
 						
 						uni.hideLoading();
 					},
@@ -95,6 +99,20 @@
 						console.log(err);
 					}
 				});
+			},
+			submit(){
+				const data = {temperature:this.baseFormData.temperature.value,long:this.baseFormData.longitude,lati:this.baseFormData.latitude}
+				uni.$http.post('/report',data).then(res=>{
+					if(res.code==200){
+						uni.showToast({
+							title:'提交成功',
+						})
+					}else{
+						uni.showToast({
+							title:res.msg,
+						})
+					}
+				})
 			}
 
 		},

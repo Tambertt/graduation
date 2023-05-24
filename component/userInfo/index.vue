@@ -13,7 +13,7 @@
 		</view>
 		<view class="card">
 			<uni-list>
-				<uni-list-item showArrow title="个人信息" />
+				<uni-list-item showArrow title="个人信息"  @click="getInfo" clickable/>
 				<uni-list-item @click="logout" clickable showArrow title="退出登录" />
 			</uni-list>
 		</view>
@@ -49,17 +49,26 @@
 					cancelText:"取消",
 					confirmText:"确定",
 					title:"确定要退出吗？",
-					success() {
-						uni.removeStorageSync("user-info")
-						uni.reLaunch({
-							url: '../../pages/my/index'
-						});
-					},
-					fail() {
+					success(res) {
+						if(res.confirm){
+							uni.removeStorageSync("user-info")
+							uni.reLaunch({
+								url: '../../pages/my/index'
+							});
+						}else{
+							uni.reLaunch({
+								url: '../../pages/my/index'
+							});
+						}
 						
 					}
 				})
 				
+			},
+		    getInfo(){
+				uni.navigateTo({
+					url:'../../subpkg/personal/personal'
+				})
 			}
 		}
 

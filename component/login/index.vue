@@ -10,7 +10,6 @@
 </template>
 
 <script>
-
 	export default {
 		name: "my-login",
 		data() {
@@ -25,21 +24,38 @@
 					desc: '一键登录',
 					lang: "zh_CN",
 					success: (res) => {
-						uni.setStorageSync(
-							"user-info",
-							JSON.stringify(res.userInfo)
-						)
-						uni.reLaunch({
-							url: '../../pages/my/index'
-						});
+
+						uni.login({
+							success(result) {
+								res.userInfo['code'] = result.code
+
+								const data = {
+									id: res.userInfo.code,
+									nickname: res.userInfo.nickName,
+									gender: res.userInfo.gender
+								}
+								uni.$http.post('/user', data).then((res1) => {
+									if (res1.code == 200) {
+										uni.setStorageSync('token', res1.token)
+									}
+								})
+								uni.setStorageSync(
+									"user-info",
+									JSON.stringify(res.userInfo)
+								)
+								uni.reLaunch({
+									url: '../../pages/home/index'
+								});
+							}
+						})
 					},
 					fail: (err) => {
 						console.log(err);
 					}
 				})
 			},
-			
-			
+
+
 		}
 	}
 </script>

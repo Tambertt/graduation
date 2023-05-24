@@ -29,10 +29,10 @@
 				}
 			} catch (e) {
 				//TODO handle the exception
-				uni.showToast({
-					title: e.message,
-					duration: 2000
-				});
+				// uni.showToast({
+				// 	title: e.message,
+				// 	duration: 2000
+				// });
 
 			}
 		}

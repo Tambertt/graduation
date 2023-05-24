@@ -4,9 +4,23 @@ import Vue from 'vue'
 import App from './App'
 import store from "@/store/index.js"
 import amap from './common/amap-wx.130';  
+import { $http }from '@escook/request-miniprogram'
 Vue.config.productionTip = false
 
 App.mpType = 'app'
+
+//请求封装
+
+uni.$http=$http
+$http.baseUrl=""
+$http.beforeRequest=function(options){
+	uni.showLoading({
+		title:'数据加载中...'
+	})
+}
+$http.afterRequest=function(options){
+	uni.hideLoading()
+}
 
 //封装提示函数
 uni.$showMsg = function(title='数据请求失败！',duration = 1500){
