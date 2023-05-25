@@ -63,7 +63,7 @@
 <style lang="scss">
 	.login-container {
 		// 登录盒子的样式
-		height: 750rpx;
+		height: 1107rpx;
 		display: flex;
 		flex-direction: column;
 		align-items: center;

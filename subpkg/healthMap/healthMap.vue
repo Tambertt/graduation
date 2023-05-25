@@ -150,7 +150,7 @@
 				success: function(data) {
 					//成功回调
 					console.log(data.markers);
-					that.markers = data.markers
+					//that.markers = data.markers
 				},
 				fail: function(info) {
 					//失败回调

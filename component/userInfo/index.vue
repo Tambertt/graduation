@@ -1,10 +1,12 @@
 <template>
 	<view class="userinfo">
 		<view class="avatar">
-			<image :src="userInfo.avatarUrl" mode=""></image>
+			<button open-type="chooseAvatar" @chooseavatar="bindchooseavatar">
+				<image :src="avatarUrl" mode=""></image>
+			</button>
 			<view class="info">
 				<view class="nickname">
-					{{userInfo.nickName}}
+					{{nickName}}
 				</view>
 				<view class="number">
 					15349180591
@@ -13,7 +15,7 @@
 		</view>
 		<view class="card">
 			<uni-list>
-				<uni-list-item showArrow title="个人信息"  @click="getInfo" clickable/>
+				<uni-list-item showArrow title="个人信息" @click="getInfo" clickable />
 				<uni-list-item @click="logout" clickable showArrow title="退出登录" />
 			</uni-list>
 		</view>
@@ -24,51 +26,57 @@
 	export default {
 		data() {
 			return {
+				avatar: '',
+				nickname: '',
 				userInfo: {}
 			}
 		},
-		created() {
-			try {
-				const value = uni.getStorageSync("user-info")
-				if (value) {
-					this.userInfo = JSON.parse(value)
-				}
-			} catch (e) {
-				console.log(e);
-				//TODO handle the exception
-				uni.showToast({
-					title: e.message,
-					duration: 2000
-				});
+		// created() {
+		// 	try {
+		// 		const value = uni.getStorageSync("user-info")
+		// 		if (value) {
+		// 			this.userInfo = JSON.parse(value)
+		// 		}
+		// 	} catch (e) {
+		// 		console.log(e);
+		// 		//TODO handle the exception
+		// 		uni.showToast({
+		// 			title: e.message,
+		// 			duration: 2000
+		// 		});
 
-			}
-		},
-		methods:{
-			logout(){
+		// 	}
+		// },
+		methods: {
+			logout() {
 				uni.showModal({
-					cancelText:"取消",
-					confirmText:"确定",
-					title:"确定要退出吗？",
+					cancelText: "取消",
+					confirmText: "确定",
+					title: "确定要退出吗？",
 					success(res) {
-						if(res.confirm){
+						if (res.confirm) {
 							uni.removeStorageSync("user-info")
 							uni.reLaunch({
 								url: '../../pages/my/index'
 							});
-						}else{
+						} else {
 							uni.reLaunch({
 								url: '../../pages/my/index'
 							});
 						}
-						
+
 					}
 				})
-				
+
 			},
-		    getInfo(){
+			getInfo() {
 				uni.navigateTo({
-					url:'../../subpkg/personal/personal'
+					url: '../../subpkg/personal/personal'
 				})
+			},
+			bindchooseavatar(e) {
+                console.log(e);
+				this.avatar = e.detail.avatarUrl
 			}
 		}
 
@@ -87,7 +95,7 @@
 			align-items: flex-end;
 			height: 250rpx;
 
-			image {
+			button {
 				width: 150rpx;
 				height: 150rpx;
 				margin-right: 20rpx;
