@@ -1,12 +1,10 @@
 <template>
 	<view class="userinfo">
-		<view class="avatar">
-			<button open-type="chooseAvatar" @chooseavatar="bindchooseavatar">
-				<image :src="avatarUrl" mode=""></image>
-			</button>
+		<view class="avatar">	
+				<image :src="avatar" mode=""></image>
 			<view class="info">
 				<view class="nickname">
-					{{nickName}}
+					{{nickname}}
 				</view>
 				<view class="number">
 					15349180591
@@ -26,27 +24,15 @@
 	export default {
 		data() {
 			return {
-				avatar: '',
+				avatar: 'https://p1.music.126.net/7RKXxsqRDzyRqIMyO4FBaw==/109951163945118228.jpg?param=180y180',
 				nickname: '',
-				userInfo: {}
 			}
 		},
-		// created() {
-		// 	try {
-		// 		const value = uni.getStorageSync("user-info")
-		// 		if (value) {
-		// 			this.userInfo = JSON.parse(value)
-		// 		}
-		// 	} catch (e) {
-		// 		console.log(e);
-		// 		//TODO handle the exception
-		// 		uni.showToast({
-		// 			title: e.message,
-		// 			duration: 2000
-		// 		});
-
-		// 	}
-		// },
+		created() {
+			const userInfo = JSON.parse(uni.getStorageSync('userInfo')) 
+			this.avatar = userInfo.avatar_url
+			this.nickname = userInfo.nick_name
+		},
 		methods: {
 			logout() {
 				uni.showModal({
@@ -74,10 +60,6 @@
 					url: '../../subpkg/personal/personal'
 				})
 			},
-			bindchooseavatar(e) {
-                console.log(e);
-				this.avatar = e.detail.avatarUrl
-			}
 		}
 
 	}
@@ -95,7 +77,7 @@
 			align-items: flex-end;
 			height: 250rpx;
 
-			button {
+			image {
 				width: 150rpx;
 				height: 150rpx;
 				margin-right: 20rpx;

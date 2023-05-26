@@ -1,6 +1,6 @@
 <template>
 	<view class="my">
-		<LogIn v-if="!userInfo.avatarUrl"></LogIn>
+		<LogIn v-if="!isShow"></LogIn>
 		<UserInfo v-else></UserInfo>
 	</view>
 
@@ -12,7 +12,7 @@
 	export default {
 		data() {
 			return {
-				userInfo: {}
+				isShow: false
 			}
 		},
 		components: {
@@ -21,20 +21,11 @@
 		},
      
 		onLoad() {
-			try {
-				const value = uni.getStorageSync("user-info")
-				if (value) {
-					this.userInfo = JSON.parse(value)
-					this.onLoad()
-				}
-			} catch (e) {
-				//TODO handle the exception
-				// uni.showToast({
-				// 	title: e.message,
-				// 	duration: 2000
-				// });
-
+			   const tokenStr = uni.getStorageSync("token")
+			if(tokenStr){
+				this.isShow=true
 			}
+		
 		}
 		
 	}

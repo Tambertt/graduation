@@ -14,6 +14,10 @@ App.mpType = 'app'
 uni.$http=$http
 $http.baseUrl=""
 $http.beforeRequest=function(options){
+	const token = uni.getStorageSync('token')
+	if(token){
+		options.header.Authorization = token
+	}
 	uni.showLoading({
 		title:'数据加载中...'
 	})

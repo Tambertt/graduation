@@ -20,39 +20,58 @@
 
 		methods: {
 			getUserInfo() {
-				uni.getUserProfile({
-					desc: '一键登录',
-					lang: "zh_CN",
-					success: (res) => {
-
-						uni.login({
-							success(result) {
-								res.userInfo['code'] = result.code
-
-								const data = {
-									id: res.userInfo.code,
-									nickname: res.userInfo.nickName,
-									gender: res.userInfo.gender
-								}
-								uni.$http.post('/user', data).then((res1) => {
-									if (res1.code == 200) {
-										uni.setStorageSync('token', res1.token)
-									}
-								})
-								uni.setStorageSync(
-									"user-info",
-									JSON.stringify(res.userInfo)
-								)
-								uni.reLaunch({
-									url: '../../pages/home/index'
-								});
+				let that = this;
+				uni.login({
+					success(result) {
+						const data={
+							appid:'wxe76f40a9a303ef9c',
+							appsecret:'b1846c8b0a38f3b6d3609c481521f8a1',
+							code:result.code
+						}
+						uni.$http.post('/user',data).then(res=>{
+							if(res.code == 200){
+								 uni.setStorageSync('userInfo',res.data)
+								 uni.setStorageSync('token',res.token)
+								 uni.reLaunch({
+								 	url:'../../pages/home/index'
+								 })
 							}
 						})
-					},
-					fail: (err) => {
-						console.log(err);
 					}
 				})
+				// uni.getUserProfile({
+				// 	desc: '一键登录',
+				// 	lang: "zh_CN",
+				// 	success: (res) => {
+
+				// 		uni.login({
+				// 			success(result) {
+				// 				res.userInfo['code'] = result.code
+
+				// 				const data = {
+				// 					id: res.userInfo.code,
+				// 					nickname: res.userInfo.nickName,
+				// 					gender: res.userInfo.gender
+				// 				}
+				// 				uni.$http.post('/user', data).then((res1) => {
+				// 					if (res1.code == 200) {
+				// 						uni.setStorageSync('token', res1.token)
+				// 					}
+				// 				})
+				// 				uni.setStorageSync(
+				// 					"user-info",
+				// 					JSON.stringify(res.userInfo)
+				// 				)
+				// 				uni.reLaunch({
+				// 					url: '../../pages/home/index'
+				// 				});
+				// 			}
+				// 		})
+				// 	},
+				// 	fail: (err) => {
+				// 		console.log(err);
+				// 	}
+				// })
 			},
 
 

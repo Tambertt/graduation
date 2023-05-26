@@ -36,7 +36,7 @@
 					"path": "healthMap/healthMap",
 					"style": {
 						"enablePullDownRefresh": false,
-						"navigationBarTitleText": ""
+						"navigationBarTitleText": "周边健康地图"
 					}
 				}
 			]
