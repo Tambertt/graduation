@@ -24,12 +24,12 @@
 	export default {
 		data() {
 			return {
-				avatar: 'https://p1.music.126.net/7RKXxsqRDzyRqIMyO4FBaw==/109951163945118228.jpg?param=180y180',
+				avatar: '',
 				nickname: '',
 			}
 		},
 		created() {
-			const userInfo = JSON.parse(uni.getStorageSync('userInfo')) 
+			const userInfo = uni.getStorageSync('userInfo')[0]
 			this.avatar = userInfo.avatar_url
 			this.nickname = userInfo.nick_name
 		},

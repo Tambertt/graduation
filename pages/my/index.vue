@@ -20,7 +20,7 @@
 			LogIn
 		},
      
-		onLoad() {
+		onShow() {
 			   const tokenStr = uni.getStorageSync("token")
 			if(tokenStr){
 				this.isShow=true

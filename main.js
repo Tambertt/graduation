@@ -12,11 +12,12 @@ App.mpType = 'app'
 //请求封装
 
 uni.$http=$http
-$http.baseUrl=""
+$http.baseUrl="https://74334h82j5.zicp.fun"
 $http.beforeRequest=function(options){
-	const token = uni.getStorageSync('token')
-	if(token){
-		options.header.Authorization = token
+	const token = uni.getStorageSync('token') 
+	if(token){	 
+		options.header.Authorization = `Bearer ${JSON.parse(token)}`
+		options.header['Access-Control-Allow-Origin'] = '*'
 	}
 	uni.showLoading({
 		title:'数据加载中...'

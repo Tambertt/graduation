@@ -23,18 +23,18 @@
 				let that = this;
 				uni.login({
 					success(result) {
-						const data={
-							appid:'wxe76f40a9a303ef9c',
-							appsecret:'b1846c8b0a38f3b6d3609c481521f8a1',
-							code:result.code
+						const params = {
+							appid: 'wxe76f40a9a303ef9c',
+							appsecret: 'b1846c8b0a38f3b6d3609c481521f8a1',
+							code: result.code
 						}
-						uni.$http.post('/user',data).then(res=>{
-							if(res.code == 200){
-								 uni.setStorageSync('userInfo',res.data)
-								 uni.setStorageSync('token',res.token)
-								 uni.reLaunch({
-								 	url:'../../pages/home/index'
-								 })
+						uni.$http.get('/api/user',params).then(res => {
+							if (res.data.code == 200) {
+								uni.setStorageSync('userInfo', res.data.data)
+								uni.setStorageSync('token', JSON.stringify(res.data.token))
+								uni.reLaunch({
+									url: '../../pages/home/index'
+								})
 							}
 						})
 					}

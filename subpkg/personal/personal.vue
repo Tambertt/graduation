@@ -65,7 +65,7 @@
 		},
 		methods:{
 			postData(){
-				uni.$http.post('/personal',this.baseFormData).then(res=>{
+				uni.$http.get('/personal',this.baseFormData).then(res=>{
 					if(res.code==200){
 						uni.showToast({
 							title:'提交成功',
