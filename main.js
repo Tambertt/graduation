@@ -2,8 +2,7 @@
 // #ifndef VUE3
 import Vue from 'vue'
 import App from './App'
-import store from "@/store/index.js"
-import amap from './common/amap-wx.130';  
+import store from "@/store/index.js" 
 import { $http }from '@escook/request-miniprogram'
 Vue.config.productionTip = false
 
@@ -14,7 +13,8 @@ App.mpType = 'app'
 uni.$http=$http
 $http.baseUrl="https://74334h82j5.zicp.fun"
 $http.beforeRequest=function(options){
-	const token = uni.getStorageSync('token') 
+	const token =uni.getStorageSync('token')
+	console.log(token);
 	if(token){	 
 		options.header.Authorization = `Bearer ${JSON.parse(token)}`
 		options.header['Access-Control-Allow-Origin'] = '*'

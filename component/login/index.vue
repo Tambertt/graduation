@@ -19,59 +19,35 @@
 		},
 
 		methods: {
+
 			getUserInfo() {
-				let that = this;
-				uni.login({
-					success(result) {
-						const params = {
-							appid: 'wxe76f40a9a303ef9c',
-							appsecret: 'b1846c8b0a38f3b6d3609c481521f8a1',
-							code: result.code
-						}
-						uni.$http.get('/api/user',params).then(res => {
-							if (res.data.code == 200) {
-								uni.setStorageSync('userInfo', res.data.data)
-								uni.setStorageSync('token', JSON.stringify(res.data.token))
-								uni.reLaunch({
-									url: '../../pages/home/index'
-								})
+				const data = uni.getStorageSync('token')
+				if (data) {
+					uni.removeStorageSync('token')
+					uni.removeStorageSync('userInfo')
+				} else {
+					let that = this;
+					uni.login({
+						success(result) {
+							const params = {
+								appid: 'wxe76f40a9a303ef9c',
+								appsecret: 'b1846c8b0a38f3b6d3609c481521f8a1',
+								code: result.code
 							}
-						})
-					}
-				})
-				// uni.getUserProfile({
-				// 	desc: '一键登录',
-				// 	lang: "zh_CN",
-				// 	success: (res) => {
+							uni.$http.get('/api/user', params).then(res => {
+								if (res.data.code == 200) {
+									uni.setStorageSync('userInfo',JSON.stringify(res.data.data))
+									uni.setStorageSync('token',JSON.stringify(res.data.token))
+									uni.reLaunch({
+										url: '../../pages/my/index'
+									})
+								}
+							})
+						}
+					})
+				}
 
-				// 		uni.login({
-				// 			success(result) {
-				// 				res.userInfo['code'] = result.code
 
-				// 				const data = {
-				// 					id: res.userInfo.code,
-				// 					nickname: res.userInfo.nickName,
-				// 					gender: res.userInfo.gender
-				// 				}
-				// 				uni.$http.post('/user', data).then((res1) => {
-				// 					if (res1.code == 200) {
-				// 						uni.setStorageSync('token', res1.token)
-				// 					}
-				// 				})
-				// 				uni.setStorageSync(
-				// 					"user-info",
-				// 					JSON.stringify(res.userInfo)
-				// 				)
-				// 				uni.reLaunch({
-				// 					url: '../../pages/home/index'
-				// 				});
-				// 			}
-				// 		})
-				// 	},
-				// 	fail: (err) => {
-				// 		console.log(err);
-				// 	}
-				// })
 			},
 
 

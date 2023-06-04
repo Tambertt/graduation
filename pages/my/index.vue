@@ -19,15 +19,13 @@
 			UserInfo,
 			LogIn
 		},
-     
-		onShow() {
-			   const tokenStr = uni.getStorageSync("token")
-			if(tokenStr){
-				this.isShow=true
+		created() {
+			const userInfo =uni.getStorageSync("userInfo")
+			if (userInfo) {
+				this.isShow = true
 			}
-		
 		}
-		
+
 	}
 </script>
 

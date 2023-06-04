@@ -5,7 +5,9 @@
 			<swiper class="swiper" circular :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval"
 				:duration="duration">
 				<swiper-item v-for="item in swiperList" :key="item.id">
-					<image :src="item.img_url" style="width:100%;height: 150px;"></image>
+					<image
+						:src="item.img_url"
+						style="width:100%;height: 150px;"></image>
 				</swiper-item>
 			</swiper>
 		</view>
@@ -26,10 +28,12 @@
 			<uni-section title="最新通告" type="line">
 				<uni-list>
 					<uni-list :border="true">
-						<uni-list-chat v-for="(item,index) in notes" :key="item.id" :title="item.title"
-							:avatar="item.avatar" :note="item.note" :time="item.time" badge-positon="left"
-							badge-text="dot">
-						</uni-list-chat>
+						<uni-list-chat v-for="item in notes" :key="item.id" :title="item.title"
+							:avatar="item.avatar"
+							:note="item.note" :time="item.time"
+							badge-positon="left" badge-text="dot"></uni-list-chat>
+						
+
 					</uni-list>
 				</uni-list>
 			</uni-section>
@@ -65,29 +69,28 @@
 					url: "/subpkg/healthMap/healthMap"
 				})
 			},
-			async getSwiperList() {
-				const res = await uni.$http.get('/api/carousel')
-				console.log(res);
-				if (res.data.code == 200) {
-					this.swiperList = res.data.data
-				}
+			 getSwiperList() {
+					 uni.$http.get('/api/carousel').then(res=>{
+						 console.log(res);
+						 if(res.data.code == 200){
+							 this.swiperList = res.data.data
+						 }
+					 })
+					
+				
 			},
 			async getNotesList() {
 				const res = await uni.$http.get('/api/notes')
-				console.log(res);
 				if (res.data.code == 200) {
-					const data = res.data.data
-					data.map(item => item.time = this.formatTime(item.time))
-					this.notes = data
+					 res.data.data.map(item=>{
+						let date = item.time.split('T')[0]
+						let t = item.time.split('T')[1].split('.')[0]
+						item.time = `${date} ${t}`
+					})
+					this.notes = res.data.data
 				}
-			},
-			formatTime(date) {
-				const arr = date.split('T')
-				const date1 = arr[0]
-				const time = arr[1].split('.')[0]
-				return `${date1} ${time}`
 			}
-		}
+		},
 
 	}
 </script>

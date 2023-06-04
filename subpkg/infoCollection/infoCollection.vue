@@ -14,8 +14,8 @@
 				</uni-forms-item>
 
 				<uni-forms-item label="定位" required>
-					<uni-easyinput class="input" v-model="baseFormData.address" type="text" />
-					<button class="btn" type="primary" @click="getRegeo">定位
+					<uni-easyinput class="input" v-model="baseFormData.address" type="text"/>
+					<button class="btn" type="primary" @click="getPoi">定位
 						<uni-icons class="icons" type="location" size="25" color="white"></uni-icons>
 					</button>
 				</uni-forms-item>
@@ -27,7 +27,7 @@
 </template>
 
 <script>
-	import amap from '@/common/amap-wx.130.js';
+	import amapFile from '@/libs/amap-wx.130.js';
 	export default {
 		data() {
 			return {
@@ -70,46 +70,61 @@
 			}
 		},
 		onLoad() {
-			this.amapPlugin = new amap.AMapWX({
+			this.amapPlugin = new amapFile.AMapWX({
 				key: this.key
 			});
-			console.log(this.amapPlugin);
 		},
 		methods: {
 			changeTemp(e) {
-				console.log(e);
+				this.baseFormData.temperature.value = e
 			},
-			changeSymp(e) {
-				console.log(e.detail.value);
-			},
-			getRegeo() {
-				uni.showLoading({
-					title: '获取信息中'
-				});
-				this.amapPlugin.getRegeo({
-					success: (data) => {
-						console.log(data)
-						this.baseFormData.address = data[0].name;
-						this.baseFormData.latitude = data[0].latitude;
-						this.baseFormData.longitude = data[0].longitude
-						
-						uni.hideLoading();
-					},
-					fail:(err) =>{
-						console.log(err);
+			getPoi() {
+				const that = this
+				uni.chooseLocation({
+					success: function (res) {
+						that.baseFormData.address = res.address;
+						that.baseFormData.latitude = res.latitude;
+						that.baseFormData.longitude = res.longitude;
+						uni.setStorageSync('longitude',res.longitude);
+						uni.setStorageSync('latitude',res.latitude);
 					}
 				});
+				// uni.showLoading({
+				// 	title: '获取信息中'
+				// });
+				//  this.amapPlugin.getRegeo({
+				//  	success: (data) => {
+				//  		console.log(data)
+				//  		this.baseFormData.address = data[0].address;
+				//  		this.baseFormData.latitude = data[0].latitude;
+				//  		this.baseFormData.longitude = data[0].longitude
+				
+				//  		uni.hideLoading();
+				//  	},
+				//  	fail:(err) =>{
+				// 		uni.hideLoading()
+				//  		uni.showToast({
+				//  			title:err.msg,
+				// 			icon:'error'
+				//  		})
+				 	     
+				//  	}
+				//  });
 			},
 			submit(){
 				const data = {temperature:this.baseFormData.temperature.value,long:this.baseFormData.longitude,lati:this.baseFormData.latitude}
-				uni.$http.post('/report',data).then(res=>{
-					if(res.code==200){
+				uni.$http.get('/report',data).then(res=>{
+					if(res.data.code==200){
 						uni.showToast({
 							title:'提交成功',
+							duration:2000
+						})
+						uni.switchTab({
+							url:'../../pages/home/index'
 						})
 					}else{
 						uni.showToast({
-							title:res.msg,
+							title:res.data.msg,
 						})
 					}
 				})
@@ -123,7 +138,9 @@
 <style lang="less">
 	.container {
 		padding: 0 10rpx;
-
+        .input{
+			width:200rpx !important;
+		}
 		.btn {
 			width: 200rpx;
 			height: 72rpx;

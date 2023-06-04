@@ -30,10 +30,10 @@
 		data() {
 			return {
 				baseFormData: {
-					username: '111',
-					age: '18',
+					username: '',
+					age: '',
 					gender: 0,
-					phone: '15349180591'
+					phone: ''
 				},
 				
 				sexs: [{
@@ -50,26 +50,32 @@
 		},
 		created() {
 			uni.$http.get('/getUserInfo').then(res=>{
-				if(res.code == 400){
+				console.log(res);
+				if(res.data.code == 400){
 					uni.showToast({
-						title:res.msg,
+						title:res.data.msg,
 						icon:'error'
 					})
 				}else{
-					this.baseFormData.username = res.data.user_name
-					this.baseFormData.age = res.data.age
-					this.baseFormData.gender = res.data.gender
-					this.baseFormData.phone = res.data.phone
+					console.log(res);
+					this.baseFormData.username = res.data.data[0].user_name
+					this.baseFormData.age = res.data.data[0].age
+					this.baseFormData.gender = res.data.data[0].gender
+					this.baseFormData.phone = res.data.data[0].phone
 				}
 			})
 		},
 		methods:{
 			postData(){
 				uni.$http.get('/personal',this.baseFormData).then(res=>{
-					if(res.code==200){
+					if(res.data.code==200){
 						uni.showToast({
 							title:'提交成功',
 							
+						})
+						
+						uni.switchTab({
+							url:'../../pages/my/index'
 						})
 					}
 				})

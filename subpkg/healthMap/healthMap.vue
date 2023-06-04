@@ -6,7 +6,7 @@
 </template>
 
 <script>
-	import amapFile from '@/common/amap-wx.130.js'
+	import amapFile from '@/libs/amap-wx.130.js'
 	export default {
 		data() {
 			return {

@@ -1,47 +1,43 @@
 {
-	"pages": [
-		{
+	"pages": [{
 			"path": "pages/my/index"
-			
+
 		},
 		{
 			"path": "pages/home/index"
-			
-		}],
-		"permission": {
-		    "scope.userLocation": {
-		      "desc": "你的位置信息将用于小程序位置接口的效果展示" // 高速公路行驶持续后台定位
-		    }
-		  },
-		  "requiredPrivateInfos":["getLocation"],
-	"subPackages": [
-		{
-			"root": "subpkg",
-			"pages": [
-				{
-					"path": "infoCollection/infoCollection",
-					"style": {
-						"enablePullDownRefresh": false,
-						"navigationBarTitleText": ""
-					}
-				},
-				{
-					"path": "personal/personal",
-					"style": {
-						"enablePullDownRefresh": false,
-						"navigationBarTitleText": ""
-					}
-				},
-				{
-					"path": "healthMap/healthMap",
-					"style": {
-						"enablePullDownRefresh": false,
-						"navigationBarTitleText": "周边健康地图"
-					}
-				}
-			]
+
 		}
 	],
+	"permission": {
+		"scope.userLocation": {
+			"desc": "你的位置信息将用于小程序位置接口的效果展示" // 高速公路行驶持续后台定位
+		}
+	},
+	"subPackages": [{
+		"root": "subpkg",
+		"pages": [{
+				"path": "infoCollection/infoCollection",
+				"style": {
+					"enablePullDownRefresh": false,
+					"navigationBarTitleText": ""
+				}
+			},
+			{
+				"path": "personal/personal",
+				"style": {
+					"enablePullDownRefresh": false,
+					"navigationBarTitleText": ""
+				}
+			},
+			{
+				"path": "healthMap/healthMap",
+				"style": {
+					"enablePullDownRefresh": false,
+					"navigationBarTitleText": "周边健康地图"
+				}
+			}
+		]
+	}],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "疫情上报",
